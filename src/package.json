@@ -1,0 +1,27 @@
+{
+  "name": "memo-saver",
+  "version": "1.0.0",
+  "description": "API for a multi-plataform personal memo-saver",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viniciusrf/memo-saver.git"
+  },
+  "author": "viniciusrf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/viniciusrf/memo-saver/issues"
+  },
+  "homepage": "https://github.com/viniciusrf/memo-saver#readme",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express-async-errors": "^3.1.1",
+    "helmet": "^7.0.0",
+    "process": "^0.11.10"
+  }
+}
