@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
-const error = require('./middleware/error');
+const error = require('../middleware/error.js');
 
 class HTTPServer {
 	constructor(dbService) {

@@ -12,9 +12,6 @@ class MongoDB {
 
     async connect() {
         let options = {
-            useNewUrlParser: true,
-            useUnifiedTopology: true, 
-            keepAlive: true
         };
         
         try {
@@ -38,7 +35,4 @@ class MongoDB {
     }
 }
 
-module.exports = {
-    MongoDB,
-    ObjectId
-};
+module.exports = MongoDB;

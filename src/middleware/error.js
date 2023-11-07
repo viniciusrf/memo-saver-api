@@ -1,11 +1,12 @@
-const HTTPError = require('../../util/httpError');
-const AuthorizationError = require('../../util/authorizationError');
-const AuthenticationError = require('../../util/authenticationError');
+const HTTPError = require('./util/httpError');
+const AuthorizationError = require('./util/authorizationError');
+const AuthenticationError = require('./util/authenticationError');
 
 module.exports = (err, req, res, next) => {  // eslint-disable-line no-unused-vars
 	// Treat authentication errors as a forbidden
 	if (err instanceof AuthenticationError)
 		err = new HTTPError(401, err.message, err, null);
+
 	// Treat authorization errors as a forbidden
 	else if (err instanceof AuthorizationError)
 		err = new HTTPError(403, err.message, err, null);
