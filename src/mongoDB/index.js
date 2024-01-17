@@ -4,6 +4,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const User = require('./models/user');
 const Book = require('./models/book');
 const Memo = require('./models/memo');
+const Tags = require('./models/tags');
 
 class MongoDB {
     constructor(mongoURL) {
@@ -19,6 +20,7 @@ class MongoDB {
             this.User = await this.connection.model('User', User);
             this.Book = await this.connection.model('Book', Book);
             this.Memo = await this.connection.model('Memo', Memo);
+            this.Tags = await this.connection.model('Tags', Tags);
             
         } catch (error) {
             throw new Error(error);

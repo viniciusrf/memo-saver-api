@@ -4,6 +4,7 @@
   "description": "API for a multi-plataform personal memo-saver",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,10 +21,13 @@
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "easy-rbac": "^3.2.0",
     "es6-error": "^4.1.1",
+    "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "helmet": "^7.0.0",
     "mongoose": "^8.0.0",
+    "nodemon": "^3.0.3",
     "process": "^0.11.10"
   }
 }

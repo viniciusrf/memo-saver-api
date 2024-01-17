@@ -1,8 +1,9 @@
 const process = require('process');
 const config = require('./config');
-const package = require('./package.json');
+const packageData = require('./package.json');
 
 const MongoDB = require('./mongoDB');
+const Auth = require('./server/domains/auth/service')
 const HTTPServer = require('./server');
 
 process.on('uncaughtException', err => {
@@ -17,12 +18,14 @@ process.on('unhandledRejection', err => {
 
 (async () => {
 	try {
-		console.info(`Version: ${package.version}\nMode: ${process.env.NODE_ENV == 'development' ? process.env.NODE_ENV : process.env.NODE_ENV}`);
+		console.info(`Version: ${packageData.version}\nMode: ${process.env.NODE_ENV == 'development' ? process.env.NODE_ENV : process.env.NODE_ENV}`);
 		
 		const dbService = new MongoDB(config.mongoUrl);
 		await dbService.connect();
 
-		const server = new HTTPServer(dbService);
+		const authService = new Auth(dbService, config);
+
+		const server = new HTTPServer(authService, dbService);
         
 		server.listen(config.host, config.port);
 

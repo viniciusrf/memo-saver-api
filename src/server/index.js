@@ -10,7 +10,7 @@ const cors = require('cors');
 const error = require('../middleware/error.js');
 
 class HTTPServer {
-	constructor(dbService) {
+	constructor(authService, dbService) {
 		this.db = dbService;
 
 		this.app = express();
@@ -23,7 +23,7 @@ class HTTPServer {
 		this.app.use(cookieParser());
 		this.app.use(cors());
         
-		this.app.use('/api/', router(dbService));
+		this.app.use('/api/', router(authService, dbService));
         
 		this.app.use(error);
 	}

@@ -1,19 +1,16 @@
 const express = require('express');
 
 // Routers
-// const areaRouter = require('./domains/area/route'); - inserir as rotas
+const booksRouter = require('./domains/book/route');
 
 // Internal Services
+const Book = require('./domains/book/service');
 
-// const Area = require('./domains/area/service'); - inserir os services
 
-
-const createMainRouter = (dbService) => {
+const createMainRouter = (authService, dbService) => {
 	const router = express.Router();
 
-	// const areaService = new Area(dbService); - declarar o inicio dos services
-
-	// router.use('/area', areaRouter(authService, areaService)); - definir as routes
+	const bookService = new Book(dbService);
 
 	router.get('/', (req, res) => {
 		res.send({status: true});
@@ -22,6 +19,8 @@ const createMainRouter = (dbService) => {
 	router.get('/ping', (req, res) => {
 		res.send({pong: true});
 	});
+
+	router.use('/books', booksRouter(authService, bookService));
 
 	return router;
 };
