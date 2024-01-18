@@ -1,0 +1,78 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+      - '*'
+  tags:
+    include:
+      - 'v*'
+pr:
+- master
+
+variables:
+  - name: host
+    value: localhost
+  - name: http_port
+    value: 3000
+  - name: mongo_url
+    value: 'mongodb://another_server/memo-saver'
+  - name: dockerUser
+    value: 'viniciusrf'
+  - name: dockerToken
+    value: 'getTokenFromSecret'
+  - name: imageName
+    value: 'memo_saver_api'
+
+stages:
+
+- stage: desenvolvimento
+  displayName: Desenvolvimento
+  jobs:
+  - job: desenvolvimento
+    displayName: Desenvolvimento
+    steps:
+    - checkout: self
+      fetchDepth: true
+
+    - bash: |
+        docker run --rm --pull=always \
+        -e SRC_PATH=/test/ \
+        -e TOKEN=$(SONAR_TOKEN) \
+        -v ${{variables.containerFolderName}}:/test/ \
+        -w /test \
+        docker.totvs.io/sonarqube/sonar-scanner-general:latest - CHANGE TO PERSONAL IMAGE
+      displayName: Sonar
+      continueOnError: false
+      condition: and(succeeded(), eq(variables.isMaster, 'true')))
+
+    - script: |
+        export DOCKERUSER=${{variables.dockerUser}}
+        export DOCKERTOKEN=${{variables.dockerToken}}
+        export DOCKERFILE=./devops/ci/Dockerfile
+        export DOCKERIMAGE=${{variables.imageName}}
+        ./devops/docker_image.sh
+      displayName: Docker Dev Image
+      continueOnError: false
+      condition: succeeded()
+
+- stage: producao
+  displayName: Producao
+  condition: and(succeeded(), eq(variables.isTag, 'true'))
+  dependsOn: desenvolvimento
+  jobs:
+  - job: producao
+    displayName: Producao
+    steps:
+    
+    - script: |
+        export DOCKERUSER=${{variables.dockerUser}}
+        export DOCKERTOKEN=${{variables.dockerToken}}
+        export DOCKERFILE=./devops/ci/Dockerfile
+        export DOCKERIMAGE=${{variables.imageName}}:latest
+        ./devops/docker_image.sh
+      displayName: Docker Production Image
+      continueOnError: false
